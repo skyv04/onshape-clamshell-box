@@ -1,0 +1,24 @@
+{
+  "$schema": "../src/schema.json",
+  "name": "Jewelry Box 4×4",
+  "description": "Larger box for jewelry, trinkets, or small accessories",
+  "box": {
+    "width": 101.6,
+    "depth": 101.6,
+    "height": 19.05,
+    "wall": 2.5,
+    "floor": 2.5,
+    "cornerRadius": 2.5
+  },
+  "hinge": {
+    "tubeOD": 8.0,
+    "boreD": 6.0,
+    "barrelOD": 4.0
+  },
+  "clasp": {
+    "hookWidth": 50.0,
+    "armLength": 7.0,
+    "catchDepth": 1.6,
+    "catchHeight": 3.0
+  }
+}

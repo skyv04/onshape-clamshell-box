@@ -1,0 +1,10 @@
+{
+  "$schema": "../src/schema.json",
+  "name": "CoinBox 3×3",
+  "description": "Classic 3×3 inch coin box — the original proven design",
+  "box": {
+    "width": 76.2,
+    "depth": 76.2,
+    "height": 12.7
+  }
+}

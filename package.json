@@ -1,0 +1,32 @@
+{
+  "name": "onshape-clamshell-box",
+  "version": "1.0.0",
+  "description": "Parameterized 3D-printable clamshell box generator with print-in-place hinge and snap-fit clasp. Outputs STL and dual-color 3MF for Bambu Studio / OnShape.",
+  "main": "src/generate.js",
+  "bin": {
+    "clamshell-box": "src/generate.js"
+  },
+  "scripts": {
+    "generate": "node src/generate.js",
+    "generate:example": "node src/generate.js --config examples/coin-box-3x3.json",
+    "export:3mf": "node src/export-3mf.js"
+  },
+  "keywords": [
+    "3d-printing",
+    "clamshell-box",
+    "onshape",
+    "jscad",
+    "csg",
+    "bambu-lab",
+    "print-in-place",
+    "hinge",
+    "snap-fit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@jscad/modeling": "^2.12.2",
+    "@jscad/stl-serializer": "^2.1.18",
+    "adm-zip": "^0.5.16"
+  }
+}

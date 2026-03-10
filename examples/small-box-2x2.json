@@ -1,0 +1,24 @@
+{
+  "$schema": "../src/schema.json",
+  "name": "Small Box 2×2",
+  "description": "Compact 2×2 inch box for rings, earbuds, or SD cards",
+  "box": {
+    "width": 50.8,
+    "depth": 50.8,
+    "height": 10.0,
+    "wall": 1.8,
+    "floor": 1.8,
+    "cornerRadius": 1.5
+  },
+  "hinge": {
+    "tubeOD": 6.0,
+    "boreD": 4.0,
+    "barrelOD": 2.5
+  },
+  "clasp": {
+    "hookWidth": 25.0,
+    "armLength": 4.5,
+    "catchDepth": 1.2,
+    "catchHeight": 2.0
+  }
+}
