@@ -44,5 +44,14 @@ module.exports = {
     baseColor: '#4A90D9',   // blue
     lidColor:  '#D94A8C',   // pink-purple
     segments:  32            // mesh resolution (16 = fast preview, 32 = production, 64 = smooth)
+  },
+
+  // ── Engraving (optional) ──────────────────────────────
+  engrave: {
+    lines:    [],       // text lines, e.g. ["GABRI-", "ELLE"] — empty = no engraving
+    depth:    0.4,      // mm — superficial cut (2 layers at 0.20mm)
+    padding:  1.0,      // mm — inset from lid edge per side
+    lineGap:  5.0,      // mm — vertical gap between lines
+    font:     null      // path to .ttf — null = auto-detect system font
   }
 };

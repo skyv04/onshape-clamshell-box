@@ -1,0 +1,35 @@
+{
+  "name": "Pencil Box 8x4",
+  "description": "Pencil box 8in long x 4in wide x 2in tall, hinge on the long 8-inch edge",
+  "box": {
+    "width": 101.6,
+    "depth": 203.2,
+    "height": 25.4,
+    "wall": 2.5,
+    "floor": 2.5,
+    "cornerRadius": 2.5
+  },
+  "hinge": {
+    "tubeOD": 8.0,
+    "boreD": 6.0,
+    "barrelOD": 4.0
+  },
+  "clasp": {
+    "hookWidth": 80.0,
+    "armLength": 7.0,
+    "catchDepth": 1.6,
+    "catchHeight": 3.0
+  },
+  "export": {
+    "baseColor": "#4A90D9",
+    "lidColor": "#D94A8C",
+    "segments": 48
+  },
+  "engrave": {
+    "lines": ["GABRI-", "ELLE"],
+    "depth": 0.4,
+    "padding": 5.0,
+    "lineGap": 5.0,
+    "font": "C:\\Windows\\Fonts\\COOPBL.TTF"
+  }
+}

@@ -275,7 +275,46 @@ console.log(`   Hinge: tube ∅${params.hinge.tubeOD} / bore ∅${params.hinge.b
 console.log(`   Clasp: ${params.clasp.hookWidth}mm wide J-hook, ${params.clasp.armLength}mm arm, ${params.clasp.catchDepth}mm catch`);
 console.log(`   Segments: ${params.export.segments}\n`);
 
-const box = buildBox(params);
+const boxResult = buildBox(params);
+let { baseHalf, lidHalf, flat, closed } = boxResult;
+const { layout } = boxResult;
+
+// ── Optional engraving ──────────────────────────────────────
+if (params.engrave && params.engrave.lines && params.engrave.lines.length > 0) {
+  console.log(`✏️  Engraving: "${params.engrave.lines.join('" / "')}"`);
+  const { makeEngraving } = require('./engrave');
+  const { HINGE_X, HINGE_Z, LID_X } = layout;
+
+  const engraveCuts = makeEngraving(params.engrave.lines, {
+    lidWidth:     params.box.width,
+    lidDepth:     params.box.depth,
+    lidCenterX:   LID_X + params.box.width / 2,
+    lidCenterY:   params.box.depth / 2,
+    engraveDepth: params.engrave.depth || 0.4,
+    padding:      params.engrave.padding || 1.0,
+    lineGap:      params.engrave.lineGap || 5.0,
+    fontPath:     params.engrave.font,
+    flipForClosure: false,
+    flipY: true
+  });
+
+  if (engraveCuts && engraveCuts.length > 0) {
+    const { translate: tr, rotate: rot } = require('@jscad/modeling').transforms;
+    const { subtract: sub, union: uni } = require('@jscad/modeling').booleans;
+
+    // Subtract each line individually — JSCAD CSG can't handle one big union
+    for (const cut of engraveCuts) {
+      lidHalf = sub(lidHalf, cut);
+    }
+    flat    = uni(baseHalf, lidHalf);
+
+    const closedLid = tr([HINGE_X, 0, HINGE_Z],
+      rot([0, Math.PI, 0], tr([-HINGE_X, 0, -HINGE_Z], lidHalf)));
+    closed = uni(baseHalf, closedLid);
+
+    console.log(`   ✓ Engraved on lid exterior (${params.engrave.depth || 0.4}mm deep)\n`);
+  }
+}
 
 // Export STLs
 const baseFile   = path.join(outDir, `${safeName}_base.stl`);
@@ -285,10 +324,10 @@ const closedFile = path.join(outDir, `${safeName}_closed.stl`);
 const mfFile     = path.join(outDir, `${safeName}_print.3mf`);
 
 const sizes = {};
-sizes.base   = exportSTL(box.baseHalf, baseFile);
-sizes.lid    = exportSTL(box.lidHalf, lidFile);
-sizes.print  = exportSTL(box.flat, printFile);
-sizes.closed = exportSTL(box.closed, closedFile);
+sizes.base   = exportSTL(baseHalf, baseFile);
+sizes.lid    = exportSTL(lidHalf, lidFile);
+sizes.print  = exportSTL(flat, printFile);
+sizes.closed = exportSTL(closed, closedFile);
 
 console.log(`   ✓ ${safeName}_base.stl   (${(sizes.base / 1024).toFixed(1)} KB)`);
 console.log(`   ✓ ${safeName}_lid.stl    (${(sizes.lid / 1024).toFixed(1)} KB)`);

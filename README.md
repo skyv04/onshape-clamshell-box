@@ -89,6 +89,58 @@ Then: `node src/generate.js --config my-box.json`
 | `coin-box-3x3.json` | 3×3×0.5 in | Coins, small items |
 | `jewelry-box-4x4.json` | 4×4×0.75 in | Jewelry, accessories |
 | `small-box-2x2.json` | 2×2×0.4 in | Rings, earbuds, SD cards |
+| `pencil-box-8x4.json` | 8×4×2 in | Pencils, pens — with engraved lid |
+
+## Text Engraving
+
+Add superficial debossed text on the lid exterior by including an `engrave` block in your config:
+
+```json
+{
+  "engrave": {
+    "lines": ["GABRI-", "ELLE"],
+    "depth": 0.4,
+    "padding": 5.0,
+    "lineGap": 5.0,
+    "font": "C:\\Windows\\Fonts\\COOPBL.TTF"
+  }
+}
+```
+
+### Engraving Parameters
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `lines` | `[]` | Array of text lines, top-to-bottom. Empty = no engraving. |
+| `depth` | `0.4` | Cut depth in mm. 0.4mm = 2 layers at 0.20mm layer height. |
+| `padding` | `1.0` | Left/right inset in mm from the lid edge for the widest line. |
+| `lineGap` | `5.0` | Vertical gap between lines in mm. |
+| `font` | auto | Path to a `.ttf` font file. Auto-detects Cooper Black → Arial → Calibri. |
+
+### How It Works
+
+1. All lines share a **uniform font size** set by the widest line fitting `(lidWidth - 2×padding)`. Shorter lines are naturally centered with more padding.
+2. The text block is centered both horizontally and vertically on the lid.
+3. Text is rendered as CSG geometry using [opentype.js](https://github.com/opentypejs/opentype.js) and subtracted from the lid. Each line is subtracted individually to avoid JSCAD CSG complexity limits.
+
+### Text Orientation for Closed Box
+
+The lid flips 180° around the hinge when the box closes. To make text read correctly on the closed box, use coordinate-level flips — **not** JSCAD `rotate()` transforms (which corrupt complex CSG booleans).
+
+| Option | Effect | When to use |
+|--------|--------|-------------|
+| `flipForClosure` | Mirrors text in X | Text reads hinge→clasp when closed |
+| `flipY` | Flips text 180° around X axis | Letters right-side-up when closed |
+
+These are passed as options to `makeEngraving()` in `generate.js`. See the pencil-box example for the working combination.
+
+### Example: Pencil Box with Engraving
+
+```bash
+node src/generate.js --config examples/pencil-box-8x4.json --name pencil_box
+```
+
+Produces an 8×4×2 inch box with "GABRI-" / "ELLE" in Cooper Black on the lid, readable when the box is closed.
 
 ## OnShape Workflow
 
@@ -145,10 +197,12 @@ onshape-clamshell-box/
 ├── src/
 │   ├── generate.js     # CLI entry point + STL/3MF export
 │   ├── geometry.js     # JSCAD CSG core (tray, hinge, clasp)
+│   ├── engrave.js      # Text engraving (opentype.js → JSCAD CSG)
 │   └── defaults.js     # Default parameters with documentation
 ├── examples/
 │   ├── coin-box-3x3.json
 │   ├── jewelry-box-4x4.json
+│   ├── pencil-box-8x4.json
 │   └── small-box-2x2.json
 ├── .github/
 │   └── copilot-instructions.md
