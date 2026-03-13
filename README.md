@@ -218,6 +218,38 @@ This repo includes `.github/copilot-instructions.md` which teaches Copilot how t
 
 And Copilot will know to run this generator with the right parameters.
 
+### Sample Prompt — Box with Engraved Lid
+
+Copy-paste this into GitHub Copilot CLI or Chat for a complete engraved box:
+
+> Use the repository skyv04/onshape-clamshell-box to generate a gift box with the following specifications:
+>
+> **BOX GEOMETRY**
+> - Exterior size: 6 in (L) × 4 in (W) × 1.5 in (H)
+> - Hinge and clasp located on the long 6‑inch edge
+>
+> **MANUFACTURING OUTPUT**
+> - Export as a dual‑color 3MF for Bambu P2S (PLA)
+> - Slicer settings: 0.20 mm Standard, 15 % infill, no supports
+> - Output must open directly in Bambu Studio ready to print
+>
+> **ENGRAVING ON LID (SUPERFICIAL ONLY, 0.4 mm DEPTH)**
+> - Two lines of text in Cooper Black:
+>     - Line 1: HAPPY
+>     - Line 2: B-DAY
+> - Both lines use the *same font size*, determined by the widest line
+> - Apply exactly 5 mm left/right padding for the widest line; shorter line is centered naturally
+> - Treat both lines as a single block, centered horizontally and vertically on the lid
+> - Text must read correctly when the box is closed (pre‑compensate for hinge rotation)
+>
+> **RULES**
+> 1. "Superficial" means engraving only — no through‑cuts.
+> 2. Do NOT scale each line independently; font size is shared.
+> 3. The 5 mm padding applies only to the widest line.
+> 4. Text orientation must be correct when the lid is closed.
+
+Swap the dimensions, text lines, and font to customise for any occasion.
+
 ## License
 
 MIT
